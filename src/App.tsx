@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Container, ThemeProvider } from '@mui/material';
+import { theme } from './Theme';
+import HeadingBar from './components/HeadingBar/HeadingBar';
+import DataPage from './components/DataPage/DataPage';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <HeadingBar></HeadingBar>
+      <Container sx={{ marginTop: 4, maxWidth: '100%'}}>
+        <Box sx={{ height: '84vh'}}>
+          <DataPage />
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
-
-export default App;
