@@ -1,8 +1,14 @@
+import { useState } from 'react';
+
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import PetsIcon from '@mui/icons-material/Pets';
 
+import DrawerMenu from './DrawerMenu';
+
 export default function HeadingBar() {
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -13,6 +19,7 @@ export default function HeadingBar() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={() => setDrawerOpen(!drawerOpen)}
           >
             <MenuIcon />
           </IconButton>
@@ -22,6 +29,7 @@ export default function HeadingBar() {
           <PetsIcon />
         </Toolbar>
       </AppBar>
+      <DrawerMenu isOpen={drawerOpen} setOpen={setDrawerOpen} />
     </Box>
   )
 };

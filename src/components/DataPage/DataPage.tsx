@@ -1,13 +1,13 @@
-// import { useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+import PageLayout from '../PageLayout/PageLayout';
+
 import data from '../../data/data.json';
 import { MagnetData } from '../../types';
 
 const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
 
 export default function DataPage() {
-  // const [rows, setRows] = useState([]);
-  
   const columns: GridColDef[] = [
     {
       field: 'id', headerName: 'ID', width: 100, filterable: false
@@ -34,24 +34,30 @@ export default function DataPage() {
       {
         id: magnet.id,
         name: magnet.name,
-        stock: magnet.stock.toString(),
+        stock: magnet.stock,
         bundles: magnet.bundles.join(', '),
-        sold: magnet.sold.toString(),
+        sold: magnet.sold,
         countries: magnet.countries.join(', ')
       }
     )
   });
 
+  function render() {
+    return (
+      <DataGrid 
+        columns={columns}
+        rows={rows}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'id', sort: 'asc' }],
+          },
+        }}
+        disableVirtualization={true}
+      />
+    )
+  }
+
   return (
-    <DataGrid 
-      columns={columns}
-      rows={rows}
-      initialState={{
-        sorting: {
-          sortModel: [{ field: 'id', sort: 'asc' }],
-        },
-      }}
-      disableVirtualization={true}
-    />
+    <PageLayout pageTitle='Magnets Data Display' child={render()} />
   )
 }
