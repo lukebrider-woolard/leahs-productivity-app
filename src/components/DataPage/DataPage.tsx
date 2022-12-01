@@ -1,13 +1,16 @@
+import { useNavigate } from 'react-router-dom';
+
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Fab, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 import PageLayout from '../PageLayout/PageLayout';
-
-import data from '../../data/data.json';
-import { MagnetData } from '../../types';
-
-const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
+import readMagnetData from '../Shared/readMagnetData';
 
 export default function DataPage() {
+  const navigate = useNavigate();
+  const magnetData = readMagnetData();
+
   const columns: GridColDef[] = [
     {
       field: 'id', headerName: 'ID', width: 100, filterable: false
@@ -58,6 +61,14 @@ export default function DataPage() {
   }
 
   return (
-    <PageLayout pageTitle='Magnets Data Display' child={render()} />
+    <>
+      <PageLayout pageTitle='Magnets Data Display' child={render()} />
+      <Tooltip title='Add Magnet'>
+        <Fab size='medium' color='secondary' aria-label='add' sx={{ position: 'fixed', bottom: 30, right: 40 }} onClick={() => navigate('/add-magnet')}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
+    </>
+    
   )
 }
