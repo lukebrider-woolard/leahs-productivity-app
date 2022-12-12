@@ -5,13 +5,15 @@ import PageLayout from '../PageLayout/PageLayout';
 import { MagnetData } from '../../types';
 
 export default function Dashboard() {
-  const [isInitialesed, setIsInitialised] = useState(localStorage.getItem('init'));
+  const [isInitialised, setIsInitialised] = useState(
+    localStorage.getItem('init')
+  );
 
   function initialiseLocalData() {
     const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
     localStorage.setItem('magnetData', JSON.stringify(magnetData));
     localStorage.setItem('init', 'true');
-    setIsInitialised('true')
+    setIsInitialised('true');
   }
 
   function resetLocalData() {
@@ -22,32 +24,36 @@ export default function Dashboard() {
 
   function render() {
     let button;
-    if (isInitialesed === 'true') {
-      button = <Button 
-      variant='contained'
-      color='secondary'
-      onClick={resetLocalData}
-    >
-      Reset Local Storage
-    </Button>
+    if (isInitialised === 'true') {
+      button = (
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ maxWidth: 300 }}
+          onClick={resetLocalData}
+        >
+          Reset Local Storage
+        </Button>
+      );
     } else {
-      button = <Button 
-        variant='contained'
-        color='secondary'
-        onClick={initialiseLocalData}
-      >
-        Initialise App Data
-      </Button>
+      button = (
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ maxWidth: 300 }}
+          onClick={initialiseLocalData}
+        >
+          Initialise App Data
+        </Button>
+      );
     }
 
     return (
-      <Stack justifyContent='space-around'>
+      <Stack direction="row" justifyContent="center">
         {button}
       </Stack>
-    )
+    );
   }
 
-  return (
-    <PageLayout pageTitle='Dashboard' child={render()} />
-  )
+  return <PageLayout pageTitle="Dashboard" child={render()} />;
 }

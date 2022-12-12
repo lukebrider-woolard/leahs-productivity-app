@@ -14,7 +14,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <HeadingBar></HeadingBar>
         <Routes>
-          <Route path="/datapage" element={<DataPage />} />
+          <Route path="/data-page" element={<DataPage />} />
           <Route path="/add-magnet" element={<AddMagnetForm />} />
           <Route path="/" element={<Dashboard />} />
         </Routes>

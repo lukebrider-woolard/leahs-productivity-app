@@ -31,5 +31,5 @@ export default function HeadingBar() {
       </AppBar>
       <DrawerMenu isOpen={drawerOpen} setOpen={setDrawerOpen} />
     </Box>
-  )
-};
+  );
+}

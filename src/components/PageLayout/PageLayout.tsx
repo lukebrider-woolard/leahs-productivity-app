@@ -11,11 +11,9 @@ export default function PageLayout(props: Props) {
       <Typography variant="h4" sx={{ ml: 2 }}>
         {props.pageTitle}
       </Typography>
-      <Container sx={{ marginTop: 2, maxWidth: '100%'}}>
-        <Box sx={{ height: '82vh'}}>
-          {props.child}
-        </Box>
+      <Container sx={{ marginTop: 2, maxWidth: '100%' }}>
+        <Box sx={{ height: '82vh' }}>{props.child}</Box>
       </Container>
     </Box>
-  )
+  );
 }
