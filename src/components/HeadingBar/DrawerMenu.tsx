@@ -33,11 +33,16 @@ export default function DrawerMenu(props: Props) {
       props.setOpen(open);
     };
 
+  function navigateToPage(address: string) {
+    props.setOpen(false);
+    navigate(address);
+  }
+
   return (
     <Drawer open={props.isOpen} onClose={toggleDrawer(false)}>
       <List>
         <ListItem key="Dashboard" disablePadding>
-          <ListItemButton onClick={() => navigate('/')}>
+          <ListItemButton onClick={() => navigateToPage('/')}>
             <ListItemIcon>
               <HomeOutlinedIcon color="secondary" />
             </ListItemIcon>
@@ -45,7 +50,7 @@ export default function DrawerMenu(props: Props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="DataPage" disablePadding>
-          <ListItemButton onClick={() => navigate('/data-page')}>
+          <ListItemButton onClick={() => navigateToPage('/data-page')}>
             <ListItemIcon>
               <DatasetOutlinedIcon color="secondary" />
             </ListItemIcon>
@@ -53,7 +58,7 @@ export default function DrawerMenu(props: Props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="SalesPage" disablePadding>
-          <ListItemButton onClick={() => navigate('/sales-page')}>
+          <ListItemButton onClick={() => navigateToPage('/sales-page')}>
             <ListItemIcon>
               <PointOfSaleIcon color="secondary" />
             </ListItemIcon>
