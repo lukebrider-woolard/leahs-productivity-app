@@ -5,7 +5,7 @@ import { Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import PageLayout from '../PageLayout/PageLayout';
-import readMagnetData from '../Shared/readMagnetData';
+import { readMagnetData } from '../Shared/readMagnetData';
 
 export default function DataPage() {
   const navigate = useNavigate();

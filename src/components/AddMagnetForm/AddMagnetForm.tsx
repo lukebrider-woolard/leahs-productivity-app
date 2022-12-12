@@ -20,27 +20,19 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 import PageLayout from '../PageLayout/PageLayout';
-import readMagnetData from '../Shared/readMagnetData';
+import { readMagnetData, getUniqueBundles } from '../Shared/readMagnetData';
 import { MagnetData } from '../../types';
 
 const magnetData = readMagnetData();
-
-const allBundleInfo = magnetData.flatMap((magnet) => magnet.bundles);
-
-let uniqueBundles: string[] = [];
-allBundleInfo.forEach((bundleName) => {
-  if (uniqueBundles.indexOf(bundleName) === -1) {
-    uniqueBundles.push(bundleName);
-  }
-});
 
 export default function AddMagnetForm() {
   const [magnetId, setMagnetId] = useState<string>('');
   const [magnetName, setMagnetName] = useState<string>('');
   const [noInStock, setNoInStock] = useState<string>('');
   const [bundles, setBundles] = useState<string[]>([]);
-  const [availableBundles, setAvailableBundles] =
-    useState<string[]>(uniqueBundles);
+  const [availableBundles, setAvailableBundles] = useState<string[]>(
+    getUniqueBundles()
+  );
   const [modalOpen, setOpen] = useState(false);
   const [newBundleName, setNewBundleName] = useState<string>('');
 
