@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import DatasetOutlinedIcon from '@mui/icons-material/DatasetOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 
 interface Props {
   isOpen: boolean;
@@ -49,6 +50,14 @@ export default function DrawerMenu(props: Props) {
               <DatasetOutlinedIcon color="secondary" />
             </ListItemIcon>
             <ListItemText primary="Magnets Data Display" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="SalesPage" disablePadding>
+          <ListItemButton onClick={() => navigate('/sales-page')}>
+            <ListItemIcon>
+              <PointOfSaleIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="Sales Page" />
           </ListItemButton>
         </ListItem>
       </List>
