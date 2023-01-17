@@ -2,10 +2,10 @@
   {
     "id": "A1",
     "name": "Avocado Toast",
-    "stock": 2,
+    "stock": 1,
     "bundles": [],
-    "sold": 1,
-    "countries": []
+    "sold": 2,
+    "countries": ["UK"]
   },
   {
     "id": "B6",
@@ -58,18 +58,18 @@
   {
     "id": "B3",
     "name": "Breakfast Bagels",
-    "stock": 1,
+    "stock": 0,
     "bundles": [],
     "sold": 4,
-    "countries": ["US"]
+    "countries": ["US", "Canada"]
   },
   {
     "id": "B4",
     "name": "Burgers",
-    "stock": 4,
+    "stock": 3,
     "bundles": ["US"],
-    "sold": 28,
-    "countries": []
+    "sold": 29,
+    "countries": ["UK"]
   },
   {
     "id": "B5",
@@ -90,10 +90,10 @@
   {
     "id": "C2",
     "name": "Casserole",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["UK", "Veg"],
-    "sold": 17,
-    "countries": []
+    "sold": 18,
+    "countries": ["UK"]
   },
   {
     "id": "C15",
@@ -138,10 +138,10 @@
   {
     "id": "C3",
     "name": "Chicken Nuggets",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["US"],
     "sold": 16,
-    "countries": ["UK", "US"]
+    "countries": ["UK", "US", "Canada"]
   },
   {
     "id": "C4",
@@ -186,9 +186,9 @@
   {
     "id": "C7",
     "name": "Chilli Con Carne",
-    "stock": 3,
+    "stock": 2,
     "bundles": [],
-    "sold": 12,
+    "sold": 13,
     "countries": ["UK", "Australia", "Canada", "Netherlands"]
   },
   {
@@ -226,10 +226,10 @@
   {
     "id": "C10",
     "name": "Curry",
-    "stock": 1,
+    "stock": 0,
     "bundles": ["UK", "Veg"],
-    "sold": 21,
-    "countries": ["UK", "Netherlands"]
+    "sold": 22,
+    "countries": ["UK", "Netherlands", "Canada"]
   },
   {
     "id": "D2",
@@ -250,18 +250,18 @@
   {
     "id": "E1",
     "name": "Eating Out",
-    "stock": 4,
+    "stock": 3,
     "bundles": [],
-    "sold": 23,
-    "countries": []
+    "sold": 24,
+    "countries": ["UK"]
   },
   {
     "id": "E4",
     "name": "Egg Fried Rice",
-    "stock": 2,
+    "stock": 1,
     "bundles": [],
-    "sold": 3,
-    "countries": []
+    "sold": 4,
+    "countries": ["UK"]
   },
   {
     "id": "E2",
@@ -274,17 +274,17 @@
   {
     "id": "E3",
     "name": "English Breakfast",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["UK"],
-    "sold": 20,
-    "countries": ["Netherlands"]
+    "sold": 21,
+    "countries": ["Netherlands", "UK"]
   },
   {
     "id": "F1",
     "name": "Fajitas",
-    "stock": 1,
+    "stock": 0,
     "bundles": [],
-    "sold": 13,
+    "sold": 14,
     "countries": ["UK"]
   },
   {
@@ -298,10 +298,10 @@
   {
     "id": "F2",
     "name": "Fish and Chips",
-    "stock": 1,
+    "stock": 0,
     "bundles": ["UK"],
-    "sold": 15,
-    "countries": ["Australia"]
+    "sold": 16,
+    "countries": ["Australia", "UK"]
   },
   {
     "id": "F3",
@@ -346,10 +346,10 @@
   {
     "id": "G2",
     "name": "Grilled cheese",
-    "stock": 2,
+    "stock": 0,
     "bundles": [],
-    "sold": 13,
-    "countries": ["US"]
+    "sold": 14,
+    "countries": ["US", "Canada", "UK"]
   },
   {
     "id": "H1",
@@ -378,9 +378,9 @@
   {
     "id": "L1",
     "name": "Lasagne",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["Veg"],
-    "sold": 20,
+    "sold": 21,
     "countries": ["UK", "US"]
   },
   {
@@ -394,10 +394,10 @@
   {
     "id": "M1",
     "name": "Mac & Cheese",
-    "stock": 2,
+    "stock": 0,
     "bundles": ["US", "Veg"],
-    "sold": 16,
-    "countries": ["US"]
+    "sold": 17,
+    "countries": ["US", "Canada", "UK"]
   },
   {
     "id": "M2",
@@ -418,18 +418,18 @@
   {
     "id": "N1",
     "name": "Noodles",
-    "stock": 2,
+    "stock": 1,
     "bundles": [],
     "sold": 8,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "O1",
     "name": "Oats",
-    "stock": 1,
+    "stock": 0,
     "bundles": ["Veg"],
     "sold": 6,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "P1",
@@ -442,10 +442,10 @@
   {
     "id": "P2",
     "name": "Pancakes (crepes)",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["UK", "US", "Veg"],
     "sold": 22,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "P3",
@@ -466,10 +466,10 @@
   {
     "id": "P5",
     "name": "Pizza",
-    "stock": 6,
+    "stock": 5,
     "bundles": ["US"],
     "sold": 33,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "P7",
@@ -506,10 +506,10 @@
   {
     "id": "R4",
     "name": "Ravioli",
-    "stock": 3,
+    "stock": 2,
     "bundles": [],
     "sold": 1,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "R1",
@@ -522,18 +522,18 @@
   {
     "id": "R5",
     "name": "Rice Pudding",
-    "stock": 1,
+    "stock": 0,
     "bundles": [],
     "sold": 1,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "R2",
     "name": "Risotto",
-    "stock": 1,
+    "stock": 0,
     "bundles": ["Veg"],
-    "sold": 5,
-    "countries": ["UK"]
+    "sold": 6,
+    "countries": ["UK", "Canada"]
   },
   {
     "id": "R3",
@@ -546,10 +546,10 @@
   {
     "id": "S15",
     "name": "Salad with Chicken",
-    "stock": 1,
+    "stock": 0,
     "bundles": [],
     "sold": 1,
-    "countries": []
+    "countries": ["Canada"]
   },
   {
     "id": "S13",
@@ -586,10 +586,10 @@
   {
     "id": "S14",
     "name": "Sausages",
-    "stock": 2,
+    "stock": 1,
     "bundles": [],
-    "sold": 1,
-    "countries": []
+    "sold": 2,
+    "countries": ["UK"]
   },
   {
     "id": "S12",
@@ -610,18 +610,18 @@
   {
     "id": "S3",
     "name": "Shepherd's Pie",
-    "stock": 1,
+    "stock": 0,
     "bundles": ["UK"],
     "sold": 13,
-    "countries": ["UK"]
+    "countries": ["UK", "Canada"]
   },
   {
     "id": "S11",
     "name": "Soup and Bread",
-    "stock": 2,
+    "stock": 0,
     "bundles": [],
-    "sold": 6,
-    "countries": []
+    "sold": 7,
+    "countries": ["Canada", "UK"]
   },
   {
     "id": "S4",
@@ -634,10 +634,10 @@
   {
     "id": "S5",
     "name": "Spaghetti",
-    "stock": 2,
+    "stock": 1,
     "bundles": [],
-    "sold": 12,
-    "countries": ["US", "Netherlands"]
+    "sold": 13,
+    "countries": ["US", "Netherlands", "UK"]
   },
   {
     "id": "S6",
@@ -658,10 +658,10 @@
   {
     "id": "S9",
     "name": "Stir Fry",
-    "stock": 3,
+    "stock": 2,
     "bundles": ["Veg"],
-    "sold": 16,
-    "countries": ["Australia"]
+    "sold": 17,
+    "countries": ["Australia", "UK"]
   },
   {
     "id": "S1",
@@ -706,9 +706,9 @@
   {
     "id": "T3",
     "name": "Thai Curry",
-    "stock": 2,
+    "stock": 1,
     "bundles": ["Veg"],
-    "sold": 5,
+    "sold": 6,
     "countries": ["UK"]
   },
   {

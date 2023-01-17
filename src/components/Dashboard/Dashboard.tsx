@@ -1,7 +1,11 @@
-import data from '../../data/data.json';
 import { useState } from 'react';
+import data from '../../data/data.json';
 import { Button, Stack } from '@mui/material';
 import PageLayout from '../PageLayout/PageLayout';
+import {
+  resetLocalData,
+  uploadFreshMagnetData,
+} from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 export default function Dashboard() {
@@ -11,14 +15,12 @@ export default function Dashboard() {
 
   function initialiseLocalData() {
     const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
-    localStorage.setItem('magnetData', JSON.stringify(magnetData));
-    localStorage.setItem('init', 'true');
+    uploadFreshMagnetData(magnetData);
     setIsInitialised('true');
   }
 
-  function resetLocalData() {
-    localStorage.clear();
-    localStorage.setItem('init', 'false');
+  function resetData() {
+    resetLocalData();
     setIsInitialised('false');
   }
 
@@ -30,7 +32,7 @@ export default function Dashboard() {
           variant="contained"
           color="secondary"
           sx={{ maxWidth: 300 }}
-          onClick={resetLocalData}
+          onClick={resetData}
         >
           Reset Local Storage
         </Button>

@@ -14,7 +14,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, getUniqueBundles } from '../Shared/readMagnetData';
+import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 const magnetData = readMagnetData();

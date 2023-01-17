@@ -1,4 +1,4 @@
-import { MagnetData } from "../../types";
+import { MagnetData } from "../types";
 
 export function readMagnetData() {
   const rawData = localStorage.getItem("magnetData");
@@ -19,4 +19,14 @@ export function getUniqueBundles() {
   });
 
   return uniqueBundles;
+}
+
+export function uploadFreshMagnetData(magnetData: MagnetData[]) {
+  localStorage.setItem('magnetData', JSON.stringify(magnetData));
+  localStorage.setItem('init', 'true');
+}
+
+export function resetLocalData() {
+  localStorage.clear();
+  localStorage.setItem('init', 'false');
 }

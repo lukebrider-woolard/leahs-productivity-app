@@ -20,7 +20,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, getUniqueBundles } from '../Shared/readMagnetData';
+import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 const magnetData = readMagnetData();
