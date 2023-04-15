@@ -67,7 +67,7 @@ export default function SalesPage() {
       if (selectedMagnets.includes(magnet.id)) {
         return {
           ...magnet,
-          stock: magnet.stock > 0 ? --magnet.stock : 0,
+          stock: --magnet.stock,
           sold: ++magnet.sold,
           countries: magnet.countries.includes(buyerCountry)
             ? magnet.countries
