@@ -46,11 +46,23 @@ export default function DataPage() {
     {
       field: 'countries',
       headerName: 'Sold to Countries',
-      minWidth: 200,
+      width: 300,
+      filterable: false,
+    },
+    {
+      field: 'numberToPrint',
+      headerName: 'Recommended for Print',
+      minWidth: 250,
       flex: 1,
       filterable: false,
     },
   ];
+
+  function calculatePrintValue(stock: number, sold: number) {
+    const result = sold / 4 - stock;
+
+    return Math.min(Math.max(Math.round(result), 0), 8);
+  }
 
   const rows = magnetData.map((magnet) => {
     return {
@@ -60,6 +72,7 @@ export default function DataPage() {
       bundles: magnet.bundles.join(', '),
       sold: magnet.sold,
       countries: magnet.countries.join(', '),
+      numberToPrint: calculatePrintValue(magnet.stock, magnet.sold),
     };
   });
 
