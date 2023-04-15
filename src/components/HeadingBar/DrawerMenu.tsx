@@ -11,6 +11,7 @@ import {
 import DatasetOutlinedIcon from '@mui/icons-material/DatasetOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 interface Props {
   isOpen: boolean;
@@ -63,6 +64,16 @@ export default function DrawerMenu(props: Props) {
               <PointOfSaleIcon color="secondary" />
             </ListItemIcon>
             <ListItemText primary="Sales Page" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="SalesPage" disablePadding>
+          <ListItemButton
+            onClick={() => navigateToPage('/stock-management-page')}
+          >
+            <ListItemIcon>
+              <InventoryIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="Stock Management Page" />
           </ListItemButton>
         </ListItem>
       </List>
