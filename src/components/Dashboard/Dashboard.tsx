@@ -2,10 +2,7 @@ import { useState } from 'react';
 import data from '../../data/data.json';
 import { Button, Stack } from '@mui/material';
 import PageLayout from '../PageLayout/PageLayout';
-import {
-  resetLocalData,
-  uploadFreshMagnetData,
-} from '../../utils/localDataUtils';
+import { resetLocalData, uploadMagnetData } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 export default function Dashboard() {
@@ -15,7 +12,7 @@ export default function Dashboard() {
 
   function initialiseLocalData() {
     const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
-    uploadFreshMagnetData(magnetData);
+    uploadMagnetData(magnetData);
     setIsInitialised('true');
   }
 

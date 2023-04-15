@@ -14,13 +14,18 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
+import {
+  readMagnetData,
+  getUniqueBundles,
+  uploadMagnetData,
+} from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 const magnetData = readMagnetData();
 
 export default function SalesPage() {
   const [rawMagnetList, setRawMagnetList] = useState<string>('');
+  const [buyerCountry, setBuyerCountry] = useState<string>('');
 
   function addMagnetsFromBundle(bundle: string) {
     const magnetsInBundle = magnetData.filter((magnet) =>
@@ -32,21 +37,6 @@ export default function SalesPage() {
       .concat(',');
 
     setRawMagnetList((prevState) => prevState.concat(magnetCodes));
-  }
-
-  function bundleButtons() {
-    const bundles = getUniqueBundles();
-
-    return bundles.map((bundle) => (
-      <Button
-        key={bundle}
-        variant="contained"
-        color="secondary"
-        onClick={() => addMagnetsFromBundle(bundle)}
-      >
-        {bundle}
-      </Button>
-    ));
   }
 
   function generateMagnetList() {
@@ -67,6 +57,50 @@ export default function SalesPage() {
     });
 
     return arrayOfMagnets.sort();
+  }
+
+  function generateUpdatedMagnetStock(
+    originalData: MagnetData[],
+    selectedMagnets: string[]
+  ) {
+    const updated: MagnetData[] = originalData.map((magnet) => {
+      if (selectedMagnets.includes(magnet.id)) {
+        return {
+          ...magnet,
+          stock: magnet.stock > 0 ? --magnet.stock : 0,
+          sold: ++magnet.sold,
+          countries: magnet.countries.includes(buyerCountry)
+            ? magnet.countries
+            : magnet.countries.concat(buyerCountry),
+        };
+      } else {
+        return magnet;
+      }
+    });
+
+    return updated;
+  }
+
+  function processMagnetPurchase() {
+    const selected = rawMagnetList.split(',').map((magnet) => magnet.trim());
+
+    const updatedData = generateUpdatedMagnetStock(magnetData, selected);
+    uploadMagnetData(updatedData);
+  }
+
+  function renderBundleButtons() {
+    const bundles = getUniqueBundles();
+
+    return bundles.map((bundle) => (
+      <Button
+        key={bundle}
+        variant="contained"
+        color="secondary"
+        onClick={() => addMagnetsFromBundle(bundle)}
+      >
+        {bundle}
+      </Button>
+    ));
   }
 
   function renderListRow(props: ListChildComponentProps) {
@@ -108,27 +142,54 @@ export default function SalesPage() {
           }}
         />
         <Stack direction={'row'} spacing={2} sx={{ mt: 2 }}>
-          {bundleButtons()}
+          {renderBundleButtons()}
         </Stack>
-        <Box
-          sx={{
-            width: '100%',
-            height: 600,
-            maxWidth: 500,
-            mt: 5,
-          }}
-        >
-          <FixedSizeList
-            height={600}
-            width={500}
-            itemSize={60}
-            itemCount={rawMagnetList.split(',').length}
-            overscanCount={5}
-            itemData={generateMagnetList()}
+        <Stack direction={'row'} spacing={2} sx={{ mt: 5 }}>
+          <Box
+            sx={{
+              width: '100%',
+              height: 600,
+              maxWidth: 500,
+            }}
           >
-            {renderListRow}
-          </FixedSizeList>
-        </Box>
+            <FixedSizeList
+              height={600}
+              width={500}
+              itemSize={60}
+              itemCount={rawMagnetList.split(',').length}
+              overscanCount={5}
+              itemData={generateMagnetList()}
+            >
+              {renderListRow}
+            </FixedSizeList>
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              height: 600,
+              maxWidth: 500,
+            }}
+          >
+            <TextField
+              id="country"
+              label="Buyer Country"
+              variant="outlined"
+              sx={{ minWidth: '50%' }}
+              value={buyerCountry}
+              onChange={(e) => setBuyerCountry(e.target.value)}
+            />
+            <Button
+              key="Complete"
+              variant="contained"
+              color="secondary"
+              sx={{ ml: 2, mt: 1 }}
+              onClick={processMagnetPurchase}
+              disabled={!rawMagnetList || !buyerCountry}
+            >
+              Complete
+            </Button>
+          </Box>
+        </Stack>
       </>
     );
   }

@@ -21,7 +21,7 @@ export function getUniqueBundles() {
   return uniqueBundles;
 }
 
-export function uploadFreshMagnetData(magnetData: MagnetData[]) {
+export function uploadMagnetData(magnetData: MagnetData[]) {
   localStorage.setItem('magnetData', JSON.stringify(magnetData));
   localStorage.setItem('init', 'true');
 }
