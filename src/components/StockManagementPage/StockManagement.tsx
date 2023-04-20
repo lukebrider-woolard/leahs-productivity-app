@@ -1,32 +1,124 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
-  Box,
-  Button,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Stack,
-  TextField,
-} from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
-
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
+  DataGrid,
+  GridColDef,
+  GridRowsProp,
+  GridRenderCellParams,
+} from '@mui/x-data-grid';
+import { Fab, IconButton, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DoneIcon from '@mui/icons-material/Done';
 
 import PageLayout from '../PageLayout/PageLayout';
 import { readMagnetData, uploadMagnetData } from '../../utils/localDataUtils';
+
 import { MagnetData } from '../../types';
 
-const magnetData = readMagnetData();
-
 export default function StockManagementPage() {
+  const [updatedMagnetStock, setUpdatedMagnetStock] = useState<MagnetData[]>(
+    readMagnetData()
+  );
+  const [rows, setRows] = useState<GridRowsProp>([]);
+
+  const columns: GridColDef[] = [
+    {
+      field: 'name',
+      headerName: 'Name',
+      minWidth: 250,
+      flex: 1,
+      filterable: false,
+    },
+    {
+      field: 'stock',
+      headerName: 'Stock',
+      width: 120,
+      filterable: false,
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width: 200,
+      filterable: false,
+      sortable: false,
+      renderCell: (params: GridRenderCellParams<number>) => {
+        const onClick = (event: any, direction: string) => {
+          event.stopPropagation(); // don't select this row after clicking
+
+          const change = direction === 'up' ? 1 : -1;
+          const magnetList = [...updatedMagnetStock];
+
+          const magnetId = params.id;
+          const updateIndex = updatedMagnetStock.findIndex(
+            (magnet) => magnet.id === magnetId
+          );
+          const magnetToUpdate = updatedMagnetStock[updateIndex];
+          const updated = {
+            ...magnetToUpdate,
+            stock: magnetToUpdate.stock + change,
+          };
+
+          magnetList.splice(updateIndex, 1, updated);
+
+          setUpdatedMagnetStock(magnetList);
+        };
+
+        return (
+          <>
+            <IconButton onClick={(e) => onClick(e, 'up')} aria-label="add">
+              <AddIcon />
+            </IconButton>
+            <IconButton onClick={(e) => onClick(e, 'down')} aria-label="remove">
+              <RemoveIcon />
+            </IconButton>
+          </>
+        );
+      },
+    },
+  ];
+
+  useEffect(() => {
+    const gridRows = updatedMagnetStock.map((magnet) => {
+      return {
+        id: magnet.id,
+        name: magnet.name,
+        stock: magnet.stock,
+      };
+    });
+
+    setRows(gridRows);
+  }, [updatedMagnetStock]);
+
   function render() {
-    return <></>;
+    return (
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'name', sort: 'asc' }],
+          },
+        }}
+        disableVirtualization={true}
+      />
+    );
   }
 
   return (
     <>
       <PageLayout pageTitle="Stock Management" child={render()} />
+      <Tooltip title="Submit">
+        <Fab
+          size="medium"
+          color="secondary"
+          aria-label="submit"
+          sx={{ position: 'fixed', top: 90, right: 40 }}
+          onClick={() => console.log(updatedMagnetStock)}
+        >
+          <DoneIcon />
+        </Fab>
+      </Tooltip>
     </>
   );
 }
