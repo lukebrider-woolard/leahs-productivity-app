@@ -17,8 +17,9 @@ import {
   readMagnetData,
   getUniqueBundles,
   uploadMagnetData,
+  uploadSalesData,
 } from '../../utils/localDataUtils';
-import { MagnetData } from '../../types';
+import { MagnetData, SalesData } from '../../types';
 
 export default function SalesPage() {
   const [rawMagnetList, setRawMagnetList] = useState<string>('');
@@ -82,11 +83,26 @@ export default function SalesPage() {
     return updated;
   }
 
+  function generateSalesData(selectedMagnets: string[]) {
+    const date = new Date();
+
+    const salesData: SalesData = {
+      id: Math.floor(Math.random() * 100000000).toString(),
+      date: date.toISOString().split('T')[0],
+      magnets: selectedMagnets,
+    };
+
+    return salesData;
+  }
+
   function processMagnetPurchase() {
     const selected = rawMagnetList.split(',').map((magnet) => magnet.trim());
 
     const updatedData = generateUpdatedMagnetStock(magnetData, selected);
     uploadMagnetData(updatedData);
+
+    const salesData = generateSalesData(selected);
+    uploadSalesData(salesData);
   }
 
   function renderBundleButtons() {

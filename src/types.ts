@@ -6,3 +6,9 @@ export interface MagnetData {
   sold: number;
   countries: string[];
 }
+
+export interface SalesData {
+  id: string;
+  date: string;
+  magnets: string[];
+}

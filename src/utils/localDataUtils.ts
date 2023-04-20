@@ -1,4 +1,4 @@
-import { MagnetData } from "../types";
+import { MagnetData, SalesData } from "../types";
 
 export function readMagnetData() {
   const rawData = localStorage.getItem("magnetData");
@@ -29,4 +29,17 @@ export function uploadMagnetData(magnetData: MagnetData[]) {
 export function resetLocalData() {
   localStorage.clear();
   localStorage.setItem('init', 'false');
+}
+
+export function readPreviousSales() {
+  const rawData = localStorage.getItem("salesData");
+  const salesData: SalesData[] = rawData !== null ? JSON.parse(rawData) : [];
+
+  return salesData;
+}
+
+export function uploadSalesData(salesData: SalesData) {
+  const previousSales = readPreviousSales();
+  const updated = previousSales.concat(salesData);
+  localStorage.setItem('salesData', JSON.stringify(updated));
 }

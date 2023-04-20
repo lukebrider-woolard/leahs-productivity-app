@@ -124,7 +124,7 @@ export default function DataPage() {
 
   return (
     <>
-      <PageLayout pageTitle="Magnets Data Display" child={render()} />
+      <PageLayout pageTitle="Magnets Data" child={render()} />
       <Tooltip title="Add Magnet">
         <Fab
           size="medium"

@@ -207,7 +207,7 @@ export default function AddMagnetForm() {
       <Button
         variant="text"
         sx={{ position: 'fixed', top: 80, right: 20 }}
-        onClick={() => navigate('/data-page')}
+        onClick={() => navigate('/magnet-data')}
       >
         return to magnet data
       </Button>

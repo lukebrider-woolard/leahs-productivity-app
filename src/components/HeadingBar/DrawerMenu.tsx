@@ -12,6 +12,7 @@ import DatasetOutlinedIcon from '@mui/icons-material/DatasetOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import HistoryIcon from '@mui/icons-material/History';
 
 interface Props {
   isOpen: boolean;
@@ -50,30 +51,36 @@ export default function DrawerMenu(props: Props) {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
         </ListItem>
-        <ListItem key="DataPage" disablePadding>
-          <ListItemButton onClick={() => navigateToPage('/data-page')}>
+        <ListItem key="MagnetData" disablePadding>
+          <ListItemButton onClick={() => navigateToPage('/magnet-data')}>
             <ListItemIcon>
               <DatasetOutlinedIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText primary="Magnets Data Display" />
+            <ListItemText primary="Magnets Data" />
           </ListItemButton>
         </ListItem>
-        <ListItem key="SalesPage" disablePadding>
-          <ListItemButton onClick={() => navigateToPage('/sales-page')}>
+        <ListItem key="Sales" disablePadding>
+          <ListItemButton onClick={() => navigateToPage('/sales')}>
             <ListItemIcon>
               <PointOfSaleIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText primary="Sales Page" />
+            <ListItemText primary="Sales" />
           </ListItemButton>
         </ListItem>
         <ListItem key="StockManagement" disablePadding>
-          <ListItemButton
-            onClick={() => navigateToPage('/stock-management-page')}
-          >
+          <ListItemButton onClick={() => navigateToPage('/stock-management')}>
             <ListItemIcon>
               <InventoryIcon color="secondary" />
             </ListItemIcon>
-            <ListItemText primary="Stock Management Page" />
+            <ListItemText primary="Stock Management" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="PreviousOrders" disablePadding>
+          <ListItemButton onClick={() => navigateToPage('/previous-orders')}>
+            <ListItemIcon>
+              <HistoryIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="Previous Orders" />
           </ListItemButton>
         </ListItem>
       </List>

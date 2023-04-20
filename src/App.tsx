@@ -9,6 +9,7 @@ import AddMagnetForm from './components/AddMagnetForm/AddMagnetForm';
 import SalesPage from './components/SalesPage/SalesPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import StockManagementPage from './components/StockManagementPage/StockManagement';
+import PreviousOrdersPage from './components/PreviousOrdersPage/PreviousOrdersPage';
 
 export default function App() {
   return (
@@ -16,13 +17,11 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <HeadingBar></HeadingBar>
         <Routes>
-          <Route path="/data-page" element={<DataPage />} />
+          <Route path="/magnet-data" element={<DataPage />} />
           <Route path="/add-magnet" element={<AddMagnetForm />} />
-          <Route path="/sales-page" element={<SalesPage />} />
-          <Route
-            path="/stock-management-page"
-            element={<StockManagementPage />}
-          />
+          <Route path="/sales" element={<SalesPage />} />
+          <Route path="/stock-management" element={<StockManagementPage />} />
+          <Route path="/previous-orders" element={<PreviousOrdersPage />} />
           <Route path="/" element={<Dashboard />} />
         </Routes>
       </ThemeProvider>
