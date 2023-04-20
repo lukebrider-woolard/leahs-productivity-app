@@ -55,7 +55,9 @@ export default function SalesPage() {
       }
     });
 
-    return arrayOfMagnets.sort();
+    return arrayOfMagnets.sort((a, b) =>
+      a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+    );
   }
 
   function generateUpdatedMagnetStock(
