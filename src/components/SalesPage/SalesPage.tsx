@@ -95,6 +95,11 @@ export default function SalesPage() {
     return salesData;
   }
 
+  function resetState() {
+    setRawMagnetList('');
+    setBuyerCountry('');
+  }
+
   function processMagnetPurchase() {
     const selected = rawMagnetList.split(',').map((magnet) => magnet.trim());
 
@@ -103,6 +108,8 @@ export default function SalesPage() {
 
     const salesData = generateSalesData(selected);
     uploadSalesData(salesData);
+
+    resetState();
   }
 
   function renderBundleButtons() {
