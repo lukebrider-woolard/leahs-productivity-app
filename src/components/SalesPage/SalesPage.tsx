@@ -57,7 +57,7 @@ export default function SalesPage() {
     });
 
     return arrayOfMagnets.sort((a, b) =>
-      a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
   }
 
