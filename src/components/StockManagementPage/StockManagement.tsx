@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import clsx from 'clsx';
+
 import {
   DataGrid,
   GridColDef,
   GridRowsProp,
   GridRenderCellParams,
+  GridCellParams,
 } from '@mui/x-data-grid';
 import { Fab, IconButton, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,10 +16,14 @@ import DoneIcon from '@mui/icons-material/Done';
 
 import PageLayout from '../PageLayout/PageLayout';
 import { readMagnetData, uploadMagnetData } from '../../utils/localDataUtils';
+import '../styles/MUIGridStyles.scss';
 
 import { MagnetData } from '../../types';
 
 export default function StockManagementPage() {
+  const [originalMagnetData, setOriginalMagnetData] = useState<MagnetData[]>(
+    readMagnetData()
+  );
   const [updatedMagnetStock, setUpdatedMagnetStock] = useState<MagnetData[]>(
     readMagnetData()
   );
@@ -35,6 +42,19 @@ export default function StockManagementPage() {
       headerName: 'Stock',
       width: 120,
       filterable: false,
+      cellClassName: (params: GridCellParams<number>) => {
+        const magnetId = params.id;
+        const index = originalMagnetData.findIndex(
+          (magnet) => magnet.id === magnetId
+        );
+        if (params.value !== undefined) {
+          return clsx('stock', {
+            changed: params.value !== originalMagnetData[index].stock,
+          });
+        } else {
+          return '';
+        }
+      },
     },
     {
       field: 'edit',
@@ -90,6 +110,11 @@ export default function StockManagementPage() {
     setRows(gridRows);
   }, [updatedMagnetStock]);
 
+  function submitChangesToMagnets() {
+    uploadMagnetData(updatedMagnetStock);
+    setOriginalMagnetData(updatedMagnetStock);
+  }
+
   function render() {
     return (
       <DataGrid
@@ -101,6 +126,7 @@ export default function StockManagementPage() {
           },
         }}
         disableVirtualization={true}
+        disableSelectionOnClick={true}
       />
     );
   }
@@ -114,7 +140,7 @@ export default function StockManagementPage() {
           color="secondary"
           aria-label="submit"
           sx={{ position: 'fixed', top: 90, right: 40 }}
-          onClick={() => console.log(updatedMagnetStock)}
+          onClick={submitChangesToMagnets}
         >
           <DoneIcon />
         </Fab>
