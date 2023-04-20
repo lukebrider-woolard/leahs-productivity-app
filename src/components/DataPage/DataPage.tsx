@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Fab, Tooltip } from '@mui/material';
+import { darken, lighten, styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
 import PageLayout from '../PageLayout/PageLayout';
@@ -10,6 +11,35 @@ import { readMagnetData } from '../../utils/localDataUtils';
 export default function DataPage() {
   const navigate = useNavigate();
   const magnetData = readMagnetData();
+
+  // Custom grid styling for highlighting out of stock magnets
+  const pink = '#ff4081';
+  const getBackgroundColor = (mode: string) =>
+    mode === 'dark' ? darken(pink, 0.7) : lighten(pink, 0.7);
+
+  const getHoverBackgroundColor = (mode: string) =>
+    mode === 'dark' ? darken(pink, 0.6) : lighten(pink, 0.6);
+
+  const getSelectedBackgroundColor = (mode: string) =>
+    mode === 'dark' ? darken(pink, 0.5) : lighten(pink, 0.5);
+
+  const getSelectedHoverBackgroundColor = (mode: string) =>
+    mode === 'dark' ? darken(pink, 0.4) : lighten(pink, 0.4);
+
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    '& .no-stock': {
+      backgroundColor: getBackgroundColor(theme.palette.mode),
+      '&:hover': {
+        backgroundColor: getHoverBackgroundColor(theme.palette.mode),
+      },
+      '&.Mui-selected': {
+        backgroundColor: getSelectedBackgroundColor(theme.palette.mode),
+        '&:hover': {
+          backgroundColor: getSelectedHoverBackgroundColor(theme.palette.mode),
+        },
+      },
+    },
+  }));
 
   const columns: GridColDef[] = [
     {
@@ -78,7 +108,7 @@ export default function DataPage() {
 
   function render() {
     return (
-      <DataGrid
+      <StyledDataGrid
         columns={columns}
         rows={rows}
         initialState={{
@@ -87,6 +117,7 @@ export default function DataPage() {
           },
         }}
         disableVirtualization={true}
+        getRowClassName={(params) => (params.row.stock <= 0 ? 'no-stock' : '')}
       />
     );
   }
