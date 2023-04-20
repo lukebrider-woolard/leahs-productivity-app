@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import {
   Box,
@@ -11,8 +12,6 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
-
 import PageLayout from '../PageLayout/PageLayout';
 import {
   readMagnetData,
@@ -21,11 +20,11 @@ import {
 } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
-const magnetData = readMagnetData();
-
 export default function SalesPage() {
   const [rawMagnetList, setRawMagnetList] = useState<string>('');
   const [buyerCountry, setBuyerCountry] = useState<string>('');
+
+  const magnetData = readMagnetData();
 
   function addMagnetsFromBundle(bundle: string) {
     const magnetsInBundle = magnetData.filter((magnet) =>
@@ -107,7 +106,7 @@ export default function SalesPage() {
     const { data, index, style } = props;
     if (data[index] !== undefined) {
       return (
-        <ListItem style={style} key={index}>
+        <ListItem style={style} key={data[index].id}>
           <ListItemText
             primary={`${data[index].id} - ${data[index].name}`}
             secondary={`${data[index].stock} in stock`}

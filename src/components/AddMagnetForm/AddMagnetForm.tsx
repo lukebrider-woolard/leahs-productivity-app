@@ -23,8 +23,6 @@ import PageLayout from '../PageLayout/PageLayout';
 import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
-const magnetData = readMagnetData();
-
 export default function AddMagnetForm() {
   const [magnetId, setMagnetId] = useState<string>('');
   const [magnetName, setMagnetName] = useState<string>('');
@@ -36,6 +34,7 @@ export default function AddMagnetForm() {
   const [modalOpen, setOpen] = useState(false);
   const [newBundleName, setNewBundleName] = useState<string>('');
 
+  const magnetData = readMagnetData();
   const navigate = useNavigate();
 
   function handleModalOpen() {

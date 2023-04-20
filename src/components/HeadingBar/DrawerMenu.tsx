@@ -66,7 +66,7 @@ export default function DrawerMenu(props: Props) {
             <ListItemText primary="Sales Page" />
           </ListItemButton>
         </ListItem>
-        <ListItem key="SalesPage" disablePadding>
+        <ListItem key="StockManagement" disablePadding>
           <ListItemButton
             onClick={() => navigateToPage('/stock-management-page')}
           >
