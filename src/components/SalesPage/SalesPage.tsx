@@ -97,7 +97,7 @@ export default function SalesPage() {
     resetState();
   }
 
-  // UI Rendering
+  // UI rendering
   function generateMagnetList() {
     let arrayOfMagnets: MagnetData[] = [];
 

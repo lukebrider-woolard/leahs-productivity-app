@@ -1,9 +1,16 @@
+// React
 import { useState } from 'react';
-import data from '../../data/data.json';
+
+// Material UI
 import { Button, Stack } from '@mui/material';
+
+// Components
 import PageLayout from '../PageLayout/PageLayout';
 import { resetLocalData, uploadMagnetData } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
+
+// Data
+import data from '../../data/data.json';
 
 export default function Dashboard() {
   const [isInitialised, setIsInitialised] = useState(

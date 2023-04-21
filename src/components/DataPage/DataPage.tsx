@@ -1,10 +1,13 @@
+// React
 import { useNavigate } from 'react-router-dom';
 
+// Material UI
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Fab, Tooltip } from '@mui/material';
 import { darken, lighten, styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
 import { readMagnetData } from '../../utils/localDataUtils';
 

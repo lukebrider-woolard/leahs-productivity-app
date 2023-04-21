@@ -1,3 +1,4 @@
+// Material UI
 import {
   Paper,
   Table,
@@ -8,6 +9,7 @@ import {
   TableRow,
 } from '@mui/material';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
 import { readPreviousSales } from '../../utils/localDataUtils';
 
