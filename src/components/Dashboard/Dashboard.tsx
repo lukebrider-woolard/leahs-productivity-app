@@ -8,14 +8,9 @@ import { Button, Stack } from '@mui/material';
 import PageLayout from '../PageLayout/PageLayout';
 import {
   resetLocalData,
-  overwriteLocalData,
-  setLocalDataAsInitialised,
+  initialiseLocalData,
   printLocalData,
 } from '../../utils/localDataUtils';
-import { MagnetData } from '../../types';
-
-// Data
-import data from '../../data/data.json';
 
 export default function Dashboard() {
   const [isInitialised, setIsInitialised] = useState(
@@ -23,9 +18,7 @@ export default function Dashboard() {
   );
 
   function initialiseLocalMagnetData() {
-    const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
-    overwriteLocalData<MagnetData>('magnetData', magnetData);
-    setLocalDataAsInitialised();
+    initialiseLocalData();
     setIsInitialised('true');
   }
 
