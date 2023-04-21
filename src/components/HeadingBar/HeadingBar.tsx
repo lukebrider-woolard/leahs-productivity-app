@@ -1,9 +1,12 @@
+// React
 import { useState } from 'react';
 
+// Material UI
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import PetsIcon from '@mui/icons-material/Pets';
 
+// Components
 import DrawerMenu from './DrawerMenu';
 
 export default function HeadingBar() {

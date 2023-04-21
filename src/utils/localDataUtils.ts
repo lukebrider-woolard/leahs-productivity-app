@@ -1,14 +1,46 @@
-import { MagnetData, SalesData } from "../types";
+import { MagnetData } from "../types";
 
-export function readMagnetData() {
-  const rawData = localStorage.getItem("magnetData");
-  const magnetData: MagnetData[] = rawData !== null ? JSON.parse(rawData) : [];
+import magnetData from '../data/magnetData.json';
+import salesData from '../data/salesData.json';
 
-  return magnetData;
+const listOfDataTypes = [
+  {keyString: 'magnetData', data: magnetData},
+  {keyString: 'salesData', data: salesData},
+];
+
+export function resetLocalData() {
+  localStorage.clear();
+  localStorage.setItem('init', 'false');
+}
+
+export function initialiseLocalData() {
+  listOfDataTypes.forEach((dataType) => overwriteLocalData<any>(dataType.keyString, dataType.data))
+  localStorage.setItem('init', 'true');
+}
+
+export function readLocalData<T>(dataKey: string): T[] {
+  const rawData = localStorage.getItem(dataKey);
+  const returnData: T[] = rawData !== null ? JSON.parse(rawData) : [];
+
+  return returnData;
+}
+
+export function overwriteLocalData<T>(dataKey: string, dataToWrite: T[]) {
+  localStorage.setItem(dataKey, JSON.stringify(dataToWrite));
+}
+
+export function appendLocalData<T>(dataKey: string, dataToWrite: T | T[]) {
+  const previous = readLocalData<T>(dataKey);
+  const updated = previous.concat(dataToWrite);
+  localStorage.setItem(dataKey, JSON.stringify(updated));
+}
+
+export function printLocalData() {
+  listOfDataTypes.forEach((dataType) => console.log(`${dataType.keyString} = `, readLocalData<any>(dataType.keyString)))
 }
 
 export function getUniqueBundles() {
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
   const allBundleInfo = magnetData.flatMap((magnet) => magnet.bundles);
 
   let uniqueBundles: string[] = [];
@@ -19,27 +51,4 @@ export function getUniqueBundles() {
   });
 
   return uniqueBundles;
-}
-
-export function uploadMagnetData(magnetData: MagnetData[]) {
-  localStorage.setItem('magnetData', JSON.stringify(magnetData));
-  localStorage.setItem('init', 'true');
-}
-
-export function resetLocalData() {
-  localStorage.clear();
-  localStorage.setItem('init', 'false');
-}
-
-export function readPreviousSales() {
-  const rawData = localStorage.getItem("salesData");
-  const salesData: SalesData[] = rawData !== null ? JSON.parse(rawData) : [];
-
-  return salesData;
-}
-
-export function uploadSalesData(salesData: SalesData) {
-  const previousSales = readPreviousSales();
-  const updated = previousSales.concat(salesData);
-  localStorage.setItem('salesData', JSON.stringify(updated));
 }

@@ -1,6 +1,8 @@
+// React
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Material UI
 import {
   Box,
   Button,
@@ -19,8 +21,9 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
+import { readLocalData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 export default function AddMagnetForm() {
@@ -34,24 +37,16 @@ export default function AddMagnetForm() {
   const [modalOpen, setOpen] = useState(false);
   const [newBundleName, setNewBundleName] = useState<string>('');
 
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
   const navigate = useNavigate();
 
-  function handleModalOpen() {
-    setOpen(true);
-  }
-
-  function handleModalClose() {
-    setNewBundleName('');
-    setOpen(false);
-  }
-
+  // Submits
   function submitNewBundle() {
     setAvailableBundles([...availableBundles, newBundleName]);
     handleModalClose();
   }
 
-  async function submitNewMagnet() {
+  function submitNewMagnet() {
     const newMagnet: MagnetData = {
       id: magnetId,
       name: magnetName,
@@ -68,6 +63,7 @@ export default function AddMagnetForm() {
     localStorage.setItem('magnetData', asJsonObject);
   }
 
+  // Handlers
   function handleSelectBundles(event: SelectChangeEvent<typeof bundles>) {
     const {
       target: { value },
@@ -76,6 +72,16 @@ export default function AddMagnetForm() {
     setBundles(typeof value === 'string' ? value.split(',') : value);
   }
 
+  function handleModalOpen() {
+    setOpen(true);
+  }
+
+  function handleModalClose() {
+    setNewBundleName('');
+    setOpen(false);
+  }
+
+  // UI rendering
   function renderAddBundleModal() {
     return (
       <Modal

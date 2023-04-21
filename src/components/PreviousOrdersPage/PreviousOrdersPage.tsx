@@ -1,3 +1,4 @@
+// Material UI
 import {
   Paper,
   Table,
@@ -8,11 +9,13 @@ import {
   TableRow,
 } from '@mui/material';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readPreviousSales } from '../../utils/localDataUtils';
+import { readLocalData } from '../../utils/localDataUtils';
+import { SalesData } from '../../types';
 
 export default function PreviousOrdersPage() {
-  const salesData = readPreviousSales();
+  const salesData = readLocalData<SalesData>('salesData');
 
   function render() {
     return (

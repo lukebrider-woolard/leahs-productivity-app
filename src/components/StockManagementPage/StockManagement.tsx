@@ -1,7 +1,7 @@
+// React
 import { useEffect, useState } from 'react';
 
-import clsx from 'clsx';
-
+// Material UI
 import {
   DataGrid,
   GridColDef,
@@ -14,21 +14,37 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DoneIcon from '@mui/icons-material/Done';
 
-import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, uploadMagnetData } from '../../utils/localDataUtils';
-import '../styles/MUIGridStyles.scss';
+// Clsx
+import clsx from 'clsx';
 
+// Components
+import PageLayout from '../PageLayout/PageLayout';
+import { readLocalData, overwriteLocalData } from '../../utils/localDataUtils';
+import '../styles/MUIGridStyles.scss';
 import { MagnetData } from '../../types';
 
 export default function StockManagementPage() {
-  const [originalMagnetData, setOriginalMagnetData] = useState<MagnetData[]>(
-    readMagnetData()
-  );
-  const [updatedMagnetStock, setUpdatedMagnetStock] = useState<MagnetData[]>(
-    readMagnetData()
-  );
+  const magnetData = readLocalData<MagnetData>('magnetData');
+  const [originalMagnetData, setOriginalMagnetData] =
+    useState<MagnetData[]>(magnetData);
+  const [updatedMagnetStock, setUpdatedMagnetStock] =
+    useState<MagnetData[]>(magnetData);
   const [rows, setRows] = useState<GridRowsProp>([]);
 
+  // Initialise state
+  useEffect(() => {
+    const gridRows = updatedMagnetStock.map((magnet) => {
+      return {
+        id: magnet.id,
+        name: magnet.name,
+        stock: magnet.stock,
+      };
+    });
+
+    setRows(gridRows);
+  }, [updatedMagnetStock]);
+
+  // Data display
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -98,23 +114,13 @@ export default function StockManagementPage() {
     },
   ];
 
-  useEffect(() => {
-    const gridRows = updatedMagnetStock.map((magnet) => {
-      return {
-        id: magnet.id,
-        name: magnet.name,
-        stock: magnet.stock,
-      };
-    });
-
-    setRows(gridRows);
-  }, [updatedMagnetStock]);
-
+  // Submits
   function submitChangesToMagnets() {
-    uploadMagnetData(updatedMagnetStock);
+    overwriteLocalData<MagnetData>('magnetData', updatedMagnetStock);
     setOriginalMagnetData(updatedMagnetStock);
   }
 
+  // UI rendering
   function render() {
     return (
       <DataGrid

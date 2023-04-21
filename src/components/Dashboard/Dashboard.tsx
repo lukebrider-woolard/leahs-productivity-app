@@ -1,18 +1,24 @@
+// React
 import { useState } from 'react';
-import data from '../../data/data.json';
+
+// Material UI
 import { Button, Stack } from '@mui/material';
+
+// Components
 import PageLayout from '../PageLayout/PageLayout';
-import { resetLocalData, uploadMagnetData } from '../../utils/localDataUtils';
-import { MagnetData } from '../../types';
+import {
+  resetLocalData,
+  initialiseLocalData,
+  printLocalData,
+} from '../../utils/localDataUtils';
 
 export default function Dashboard() {
   const [isInitialised, setIsInitialised] = useState(
     localStorage.getItem('init')
   );
 
-  function initialiseLocalData() {
-    const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
-    uploadMagnetData(magnetData);
+  function initialiseLocalMagnetData() {
+    initialiseLocalData();
     setIsInitialised('true');
   }
 
@@ -25,14 +31,24 @@ export default function Dashboard() {
     let button;
     if (isInitialised === 'true') {
       button = (
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ maxWidth: 300 }}
-          onClick={resetData}
-        >
-          Reset Local Storage
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ maxWidth: 300 }}
+            onClick={resetData}
+          >
+            Reset Local Storage
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ maxWidth: 300 }}
+            onClick={printLocalData}
+          >
+            Write Stored Data To Console
+          </Button>
+        </>
       );
     } else {
       button = (
@@ -40,7 +56,7 @@ export default function Dashboard() {
           variant="contained"
           color="secondary"
           sx={{ maxWidth: 300 }}
-          onClick={initialiseLocalData}
+          onClick={initialiseLocalMagnetData}
         >
           Initialise App Data
         </Button>
@@ -48,7 +64,7 @@ export default function Dashboard() {
     }
 
     return (
-      <Stack direction="row" justifyContent="center">
+      <Stack alignItems="center" justifyContent="center" spacing={2}>
         {button}
       </Stack>
     );

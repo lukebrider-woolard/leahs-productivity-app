@@ -1,7 +1,10 @@
-import { useState } from 'react';
+// React
+import { useEffect, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
+// Material UI
 import {
+  Badge,
   Box,
   Button,
   IconButton,
@@ -12,55 +15,39 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
 import {
-  readMagnetData,
+  readLocalData,
   getUniqueBundles,
-  uploadMagnetData,
-  uploadSalesData,
+  overwriteLocalData,
+  appendLocalData,
 } from '../../utils/localDataUtils';
 import { MagnetData, SalesData } from '../../types';
 
 export default function SalesPage() {
   const [rawMagnetList, setRawMagnetList] = useState<string>('');
   const [buyerCountry, setBuyerCountry] = useState<string>('');
+  const [magnetIdArray, setMagnetIdArray] = useState<string[]>([]);
+  const [magnetCount, setMagnetCount] = useState<number>(0);
 
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
 
-  function addMagnetsFromBundle(bundle: string) {
-    const magnetsInBundle = magnetData.filter((magnet) =>
-      magnet.bundles.includes(bundle)
-    );
-    const magnetCodes = magnetsInBundle
-      .map((magnet) => magnet.id)
-      .toString()
-      .concat(',');
+  // Initialise state
+  useEffect(() => {
+    function rawStringListToArray() {
+      return rawMagnetList
+        .split(',')
+        .map((magnet) => magnet.trim())
+        .filter((magnet) => magnet.length !== 0);
+    }
+    const convertToList = rawStringListToArray();
 
-    setRawMagnetList((prevState) => prevState.concat(magnetCodes));
-  }
+    setMagnetIdArray(convertToList);
+    setMagnetCount(convertToList.length);
+  }, [rawMagnetList]);
 
-  function generateMagnetList() {
-    const arrayOfMagnetIDs = rawMagnetList.split(',').map((element) => {
-      return element.trim();
-    });
-
-    let arrayOfMagnets: MagnetData[] = [];
-
-    arrayOfMagnetIDs.forEach((id) => {
-      const result = magnetData.find((magnet) => {
-        return magnet.id === id;
-      });
-
-      if (result !== undefined) {
-        arrayOfMagnets.push(result);
-      }
-    });
-
-    return arrayOfMagnets.sort((a, b) =>
-      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    );
-  }
-
+  // Process stock update
   function generateUpdatedMagnetStock(
     originalData: MagnetData[],
     selectedMagnets: string[]
@@ -101,15 +88,47 @@ export default function SalesPage() {
   }
 
   function processMagnetPurchase() {
-    const selected = rawMagnetList.split(',').map((magnet) => magnet.trim());
+    const updatedMagnetData = generateUpdatedMagnetStock(
+      magnetData,
+      magnetIdArray
+    );
+    overwriteLocalData<MagnetData>('magnetData', updatedMagnetData);
 
-    const updatedData = generateUpdatedMagnetStock(magnetData, selected);
-    uploadMagnetData(updatedData);
-
-    const salesData = generateSalesData(selected);
-    uploadSalesData(salesData);
+    const salesData = generateSalesData(magnetIdArray);
+    appendLocalData<SalesData>('salesData', salesData);
 
     resetState();
+  }
+
+  // UI rendering
+  function generateMagnetList() {
+    let arrayOfMagnets: MagnetData[] = [];
+
+    magnetIdArray.forEach((id) => {
+      const result = magnetData.find((magnet) => {
+        return magnet.id === id;
+      });
+
+      if (result !== undefined) {
+        arrayOfMagnets.push(result);
+      }
+    });
+
+    return arrayOfMagnets.sort((a, b) =>
+      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+    );
+  }
+
+  function addMagnetsFromBundle(bundle: string) {
+    const magnetsInBundle = magnetData.filter((magnet) =>
+      magnet.bundles.includes(bundle)
+    );
+    const magnetCodes = magnetsInBundle
+      .map((magnet) => magnet.id)
+      .toString()
+      .concat(',');
+
+    setRawMagnetList((prevState) => prevState.concat(magnetCodes));
   }
 
   function renderBundleButtons() {
@@ -156,12 +175,19 @@ export default function SalesPage() {
           helperText="Enter comma separated magnet codes to generate a list. Clicking a bundle will automatically add the codes."
           InputProps={{
             endAdornment: (
-              <IconButton
-                aria-label="clear magnet date"
-                onClick={() => setRawMagnetList('')}
-              >
-                <ClearIcon />
-              </IconButton>
+              <>
+                <Badge
+                  color="secondary"
+                  badgeContent={magnetCount}
+                  sx={{ mr: 1 }}
+                />
+                <IconButton
+                  aria-label="clear magnet date"
+                  onClick={() => setRawMagnetList('')}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </>
             ),
           }}
         />
@@ -180,7 +206,7 @@ export default function SalesPage() {
               height={600}
               width={500}
               itemSize={60}
-              itemCount={rawMagnetList.split(',').length}
+              itemCount={magnetCount}
               overscanCount={5}
               itemData={generateMagnetList()}
             >

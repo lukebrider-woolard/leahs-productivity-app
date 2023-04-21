@@ -1,16 +1,20 @@
+// React
 import { useNavigate } from 'react-router-dom';
 
+// Material UI
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Fab, Tooltip } from '@mui/material';
 import { darken, lighten, styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData } from '../../utils/localDataUtils';
+import { readLocalData } from '../../utils/localDataUtils';
+import { MagnetData } from '../../types';
 
 export default function DataPage() {
   const navigate = useNavigate();
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
 
   // Custom grid styling for highlighting out of stock magnets
   const pink = '#ff4081';
