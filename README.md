@@ -34,3 +34,23 @@ The app should now be ready to use.
 ### Dashboard
 
 Here you can manage the local storage data used by the app. Within this repo are json files containing the data consumed by the app. When first run you will need to initialise this data into your browser's local storage (as per the setup instructions above). At any time, you can click the button `Write Stored Data To Console` to get a log of the data currently on your browser's local storage. This can then be pasted over the existing data within the json files. It is recommended to do this periodically to avoid losing data. If you make any mistakes whilst using the app and need to reset the local storage data back to what was last saved in the json files, you can click the `Reset Local Storage` button and then reinitialise the data.
+
+### Magnets Data
+
+This is the main data display page for Leah's magnets. Out of stock magnets are highlighted. Each column is sortable. There is a floating action button for adding new magnets.
+
+#### Adding Magnets
+
+This form allows you to enter a new magnet to the catalogue. You will need to provide a unique id (currently the app does not validate this). You will also need to provide a name, the number currently in stock (accepts zero and negatives), and you can optionally assign the new magnet to bundles. You can also create a new bundle if necessary. 
+
+### Sales
+
+This page enables you to enter a comma separated list of magnet ids in order to generate an alphabetised list of magnets that a customer has ordered. There is also the ability to select a bundle if the customer has purchased one of those. This list also shows the current stock of each magnet. When ready, you need to enter the country that the customer is ordering from (to update this property of each magnet in the order). You can then hit the `Complete` button to process the order - automatically updating the stock, sold, and country properties of each magnet in the order. 
+
+### Stock Management
+
+Here you can view a streamlined view of the current magnet stock. You can use the `+` and `-` buttons in the Edit column to alter the stock level of each magnet. Any magnet that has been edited but not saved will have the stock number highlighted. There is a floating action button for saving edits. 
+
+### Previous Orders
+
+This page displays a simple table showing the magnets ids purchased in each order and the date the order was completed using this app. 
