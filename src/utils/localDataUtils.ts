@@ -1,8 +1,11 @@
 import { MagnetData } from "../types";
 
+import magnetData from '../data/magnetData.json';
+import salesData from '../data/salesData.json';
+
 const listOfDataTypes = [
-  'magnetData',
-  'salesData'
+  {keyString: 'magnetData', data: magnetData},
+  {keyString: 'salesData', data: salesData},
 ];
 
 export function resetLocalData() {
@@ -10,7 +13,8 @@ export function resetLocalData() {
   localStorage.setItem('init', 'false');
 }
 
-export function setLocalDataAsInitialised() {
+export function initialiseLocalData() {
+  listOfDataTypes.forEach((dataType) => overwriteLocalData<any>(dataType.keyString, dataType.data))
   localStorage.setItem('init', 'true');
 }
 
@@ -32,7 +36,7 @@ export function appendLocalData<T>(dataKey: string, dataToWrite: T | T[]) {
 }
 
 export function printLocalData() {
-  listOfDataTypes.forEach((dataType) => console.log(readLocalData<any>(dataType)))
+  listOfDataTypes.forEach((dataType) => console.log(`${dataType.keyString} = `, readLocalData<any>(dataType.keyString)))
 }
 
 export function getUniqueBundles() {
