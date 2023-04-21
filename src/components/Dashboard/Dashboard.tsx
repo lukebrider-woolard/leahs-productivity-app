@@ -6,7 +6,12 @@ import { Button, Stack } from '@mui/material';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
-import { resetLocalData, uploadMagnetData } from '../../utils/localDataUtils';
+import {
+  resetLocalData,
+  overwriteLocalData,
+  setLocalDataAsInitialised,
+  printLocalData,
+} from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 // Data
@@ -17,9 +22,10 @@ export default function Dashboard() {
     localStorage.getItem('init')
   );
 
-  function initialiseLocalData() {
+  function initialiseLocalMagnetData() {
     const magnetData: MagnetData[] = JSON.parse(JSON.stringify(data));
-    uploadMagnetData(magnetData);
+    overwriteLocalData<MagnetData>('magnetData', magnetData);
+    setLocalDataAsInitialised();
     setIsInitialised('true');
   }
 
@@ -32,14 +38,24 @@ export default function Dashboard() {
     let button;
     if (isInitialised === 'true') {
       button = (
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ maxWidth: 300 }}
-          onClick={resetData}
-        >
-          Reset Local Storage
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ maxWidth: 300 }}
+            onClick={resetData}
+          >
+            Reset Local Storage
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ maxWidth: 300 }}
+            onClick={printLocalData}
+          >
+            Write Stored Data To Console
+          </Button>
+        </>
       );
     } else {
       button = (
@@ -47,7 +63,7 @@ export default function Dashboard() {
           variant="contained"
           color="secondary"
           sx={{ maxWidth: 300 }}
-          onClick={initialiseLocalData}
+          onClick={initialiseLocalMagnetData}
         >
           Initialise App Data
         </Button>
@@ -55,7 +71,7 @@ export default function Dashboard() {
     }
 
     return (
-      <Stack direction="row" justifyContent="center">
+      <Stack alignItems="center" justifyContent="center" spacing={2}>
         {button}
       </Stack>
     );

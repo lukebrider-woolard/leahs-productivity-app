@@ -18,10 +18,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 // Components
 import PageLayout from '../PageLayout/PageLayout';
 import {
-  readMagnetData,
+  readLocalData,
   getUniqueBundles,
-  uploadMagnetData,
-  uploadSalesData,
+  overwriteLocalData,
+  appendLocalData,
 } from '../../utils/localDataUtils';
 import { MagnetData, SalesData } from '../../types';
 
@@ -31,7 +31,7 @@ export default function SalesPage() {
   const [magnetIdArray, setMagnetIdArray] = useState<string[]>([]);
   const [magnetCount, setMagnetCount] = useState<number>(0);
 
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
 
   // Initialise state
   useEffect(() => {
@@ -88,11 +88,14 @@ export default function SalesPage() {
   }
 
   function processMagnetPurchase() {
-    const updatedData = generateUpdatedMagnetStock(magnetData, magnetIdArray);
-    uploadMagnetData(updatedData);
+    const updatedMagnetData = generateUpdatedMagnetStock(
+      magnetData,
+      magnetIdArray
+    );
+    overwriteLocalData<MagnetData>('magnetData', updatedMagnetData);
 
     const salesData = generateSalesData(magnetIdArray);
-    uploadSalesData(salesData);
+    appendLocalData<SalesData>('salesData', salesData);
 
     resetState();
   }

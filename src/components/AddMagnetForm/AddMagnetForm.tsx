@@ -23,7 +23,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, getUniqueBundles } from '../../utils/localDataUtils';
+import { readLocalData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 export default function AddMagnetForm() {
@@ -37,7 +37,7 @@ export default function AddMagnetForm() {
   const [modalOpen, setOpen] = useState(false);
   const [newBundleName, setNewBundleName] = useState<string>('');
 
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
   const navigate = useNavigate();
 
   // Submits

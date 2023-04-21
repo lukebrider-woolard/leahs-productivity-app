@@ -9,11 +9,12 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData } from '../../utils/localDataUtils';
+import { readLocalData } from '../../utils/localDataUtils';
+import { MagnetData } from '../../types';
 
 export default function DataPage() {
   const navigate = useNavigate();
-  const magnetData = readMagnetData();
+  const magnetData = readLocalData<MagnetData>('magnetData');
 
   // Custom grid styling for highlighting out of stock magnets
   const pink = '#ff4081';

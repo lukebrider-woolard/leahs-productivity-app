@@ -19,17 +19,16 @@ import clsx from 'clsx';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
-import { readMagnetData, uploadMagnetData } from '../../utils/localDataUtils';
+import { readLocalData, overwriteLocalData } from '../../utils/localDataUtils';
 import '../styles/MUIGridStyles.scss';
 import { MagnetData } from '../../types';
 
 export default function StockManagementPage() {
-  const [originalMagnetData, setOriginalMagnetData] = useState<MagnetData[]>(
-    readMagnetData()
-  );
-  const [updatedMagnetStock, setUpdatedMagnetStock] = useState<MagnetData[]>(
-    readMagnetData()
-  );
+  const magnetData = readLocalData<MagnetData>('magnetData');
+  const [originalMagnetData, setOriginalMagnetData] =
+    useState<MagnetData[]>(magnetData);
+  const [updatedMagnetStock, setUpdatedMagnetStock] =
+    useState<MagnetData[]>(magnetData);
   const [rows, setRows] = useState<GridRowsProp>([]);
 
   // Initialise state
@@ -117,7 +116,7 @@ export default function StockManagementPage() {
 
   // Submits
   function submitChangesToMagnets() {
-    uploadMagnetData(updatedMagnetStock);
+    overwriteLocalData<MagnetData>('magnetData', updatedMagnetStock);
     setOriginalMagnetData(updatedMagnetStock);
   }
 
