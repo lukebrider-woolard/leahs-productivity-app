@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import {
+  Badge,
   Box,
   Button,
   IconButton,
@@ -24,8 +25,23 @@ import { MagnetData, SalesData } from '../../types';
 export default function SalesPage() {
   const [rawMagnetList, setRawMagnetList] = useState<string>('');
   const [buyerCountry, setBuyerCountry] = useState<string>('');
+  const [magnetIdArray, setMagnetIdArray] = useState<string[]>([]);
+  const [magnetCount, setMagnetCount] = useState<number>(0);
 
   const magnetData = readMagnetData();
+
+  useEffect(() => {
+    function rawStringListToArray() {
+      return rawMagnetList
+        .split(',')
+        .map((magnet) => magnet.trim())
+        .filter((magnet) => magnet.length !== 0);
+    }
+    const convertToList = rawStringListToArray();
+
+    setMagnetIdArray(convertToList);
+    setMagnetCount(convertToList.length);
+  }, [rawMagnetList]);
 
   function addMagnetsFromBundle(bundle: string) {
     const magnetsInBundle = magnetData.filter((magnet) =>
@@ -40,13 +56,9 @@ export default function SalesPage() {
   }
 
   function generateMagnetList() {
-    const arrayOfMagnetIDs = rawMagnetList.split(',').map((element) => {
-      return element.trim();
-    });
-
     let arrayOfMagnets: MagnetData[] = [];
 
-    arrayOfMagnetIDs.forEach((id) => {
+    magnetIdArray.forEach((id) => {
       const result = magnetData.find((magnet) => {
         return magnet.id === id;
       });
@@ -101,12 +113,10 @@ export default function SalesPage() {
   }
 
   function processMagnetPurchase() {
-    const selected = rawMagnetList.split(',').map((magnet) => magnet.trim());
-
-    const updatedData = generateUpdatedMagnetStock(magnetData, selected);
+    const updatedData = generateUpdatedMagnetStock(magnetData, magnetIdArray);
     uploadMagnetData(updatedData);
 
-    const salesData = generateSalesData(selected);
+    const salesData = generateSalesData(magnetIdArray);
     uploadSalesData(salesData);
 
     resetState();
@@ -156,12 +166,19 @@ export default function SalesPage() {
           helperText="Enter comma separated magnet codes to generate a list. Clicking a bundle will automatically add the codes."
           InputProps={{
             endAdornment: (
-              <IconButton
-                aria-label="clear magnet date"
-                onClick={() => setRawMagnetList('')}
-              >
-                <ClearIcon />
-              </IconButton>
+              <>
+                <Badge
+                  color="secondary"
+                  badgeContent={magnetCount}
+                  sx={{ mr: 1 }}
+                />
+                <IconButton
+                  aria-label="clear magnet date"
+                  onClick={() => setRawMagnetList('')}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </>
             ),
           }}
         />
@@ -180,7 +197,7 @@ export default function SalesPage() {
               height={600}
               width={500}
               itemSize={60}
-              itemCount={rawMagnetList.split(',').length}
+              itemCount={magnetCount}
               overscanCount={5}
               itemData={generateMagnetList()}
             >
