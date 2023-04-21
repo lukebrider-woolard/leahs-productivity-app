@@ -1,6 +1,8 @@
+// React
 import { useEffect, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
+// Material UI
 import {
   Badge,
   Box,
@@ -13,6 +15,7 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
+// Components
 import PageLayout from '../PageLayout/PageLayout';
 import {
   readMagnetData,
@@ -30,6 +33,7 @@ export default function SalesPage() {
 
   const magnetData = readMagnetData();
 
+  // Initialise state
   useEffect(() => {
     function rawStringListToArray() {
       return rawMagnetList
@@ -43,36 +47,7 @@ export default function SalesPage() {
     setMagnetCount(convertToList.length);
   }, [rawMagnetList]);
 
-  function addMagnetsFromBundle(bundle: string) {
-    const magnetsInBundle = magnetData.filter((magnet) =>
-      magnet.bundles.includes(bundle)
-    );
-    const magnetCodes = magnetsInBundle
-      .map((magnet) => magnet.id)
-      .toString()
-      .concat(',');
-
-    setRawMagnetList((prevState) => prevState.concat(magnetCodes));
-  }
-
-  function generateMagnetList() {
-    let arrayOfMagnets: MagnetData[] = [];
-
-    magnetIdArray.forEach((id) => {
-      const result = magnetData.find((magnet) => {
-        return magnet.id === id;
-      });
-
-      if (result !== undefined) {
-        arrayOfMagnets.push(result);
-      }
-    });
-
-    return arrayOfMagnets.sort((a, b) =>
-      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    );
-  }
-
+  // Process stock update
   function generateUpdatedMagnetStock(
     originalData: MagnetData[],
     selectedMagnets: string[]
@@ -120,6 +95,37 @@ export default function SalesPage() {
     uploadSalesData(salesData);
 
     resetState();
+  }
+
+  // UI Rendering
+  function generateMagnetList() {
+    let arrayOfMagnets: MagnetData[] = [];
+
+    magnetIdArray.forEach((id) => {
+      const result = magnetData.find((magnet) => {
+        return magnet.id === id;
+      });
+
+      if (result !== undefined) {
+        arrayOfMagnets.push(result);
+      }
+    });
+
+    return arrayOfMagnets.sort((a, b) =>
+      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+    );
+  }
+
+  function addMagnetsFromBundle(bundle: string) {
+    const magnetsInBundle = magnetData.filter((magnet) =>
+      magnet.bundles.includes(bundle)
+    );
+    const magnetCodes = magnetsInBundle
+      .map((magnet) => magnet.id)
+      .toString()
+      .concat(',');
+
+    setRawMagnetList((prevState) => prevState.concat(magnetCodes));
   }
 
   function renderBundleButtons() {
