@@ -1,6 +1,7 @@
 // React
 import { useEffect, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { useParams } from 'react-router-dom';
 
 // Material UI
 import {
@@ -26,12 +27,17 @@ import {
 import { MagnetData, SalesData } from '../../types';
 
 export default function SalesPage() {
-  const [rawMagnetList, setRawMagnetList] = useState<string>('');
+  const { id: magnetIds } = useParams();
+  const [rawMagnetList, setRawMagnetList] = useState<string>(
+    magnetIds !== undefined ? magnetIds : ''
+  );
   const [buyerCountry, setBuyerCountry] = useState<string>('');
   const [magnetIdArray, setMagnetIdArray] = useState<string[]>([]);
   const [magnetCount, setMagnetCount] = useState<number>(0);
 
   const magnetData = readLocalData<MagnetData>('magnetData');
+
+  console.log(magnetIds);
 
   // Initialise state
   useEffect(() => {

@@ -1,13 +1,8 @@
+// React
+import { useNavigate } from 'react-router-dom';
+
 // Material UI
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
@@ -16,36 +11,55 @@ import { SalesData } from '../../types';
 
 export default function PreviousOrdersPage() {
   const salesData = readLocalData<SalesData>('salesData');
+  const navigate = useNavigate();
+
+  function openSalesPageWithPreviousOrder(row: GridRowParams) {
+    const saleId = row.id;
+    const sale = salesData.find((sale) => sale.id === saleId);
+
+    if (sale !== undefined) {
+      const stringifiedIds = sale.magnets.join(',');
+      navigate(`/sales/${stringifiedIds}`);
+    }
+  }
+
+  const columns: GridColDef[] = [
+    {
+      field: 'date',
+      headerName: 'Date of Sale',
+      width: 250,
+      filterable: false,
+    },
+    {
+      field: 'magnets',
+      headerName: 'Magnet IDs',
+      minWidth: 150,
+      flex: 1,
+      filterable: false,
+    },
+  ];
+
+  const rows = salesData.map((sale) => {
+    return {
+      id: sale.id,
+      date: sale.date,
+      magnets: sale.magnets.join(','),
+    };
+  });
 
   function render() {
     return (
-      <TableContainer component={Paper}>
-        <Table
-          sx={{ minWidth: 650 }}
-          size="small"
-          aria-label="previous sales table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Date of Sale</TableCell>
-              <TableCell align="right">Magnets Sold</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {salesData.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.date}
-                </TableCell>
-                <TableCell align="right">{row.magnets.join(', ')}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'date', sort: 'desc' }],
+          },
+        }}
+        disableVirtualization={true}
+        onRowClick={(e) => openSalesPageWithPreviousOrder(e.row)}
+      />
     );
   }
 
