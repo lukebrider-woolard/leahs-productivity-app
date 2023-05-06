@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Components
 import PageLayout from '../PageLayout/PageLayout';
+import { calculatePrintValue } from './calculatePrintValue';
 import { readLocalData } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
@@ -92,12 +93,6 @@ export default function DataPage() {
     },
   ];
 
-  function calculatePrintValue(stock: number, sold: number) {
-    const result = sold / 4 - stock;
-
-    return Math.min(Math.max(Math.round(result), 0), 8);
-  }
-
   const rows = magnetData.map((magnet) => {
     return {
       id: magnet.id,
@@ -106,7 +101,7 @@ export default function DataPage() {
       bundles: magnet.bundles.join(', '),
       sold: magnet.sold,
       countries: magnet.countries.join(', '),
-      numberToPrint: calculatePrintValue(magnet.stock, magnet.sold),
+      numberToPrint: calculatePrintValue(magnet.sold, magnet.stock),
     };
   });
 
