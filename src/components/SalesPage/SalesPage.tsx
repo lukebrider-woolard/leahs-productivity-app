@@ -168,6 +168,35 @@ export default function SalesPage() {
     }
   }
 
+  function completeOrderButton() {
+    if (magnetIds === undefined) {
+      return (
+        <Button
+          key="Complete"
+          variant="contained"
+          color="secondary"
+          sx={{ ml: 2, mt: 1 }}
+          onClick={processMagnetPurchase}
+          disabled={!rawMagnetList || !buyerCountry}
+        >
+          Complete
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          key="OldOrder"
+          variant="contained"
+          color="secondary"
+          sx={{ ml: 2, mt: 1 }}
+          disabled
+        >
+          Old Order
+        </Button>
+      );
+    }
+  }
+
   function render() {
     return (
       <>
@@ -234,16 +263,7 @@ export default function SalesPage() {
               value={buyerCountry}
               onChange={(e) => setBuyerCountry(e.target.value)}
             />
-            <Button
-              key="Complete"
-              variant="contained"
-              color="secondary"
-              sx={{ ml: 2, mt: 1 }}
-              onClick={processMagnetPurchase}
-              disabled={!rawMagnetList || !buyerCountry}
-            >
-              Complete
-            </Button>
+            {completeOrderButton()}
           </Box>
         </Stack>
       </>
