@@ -1,12 +1,12 @@
 import Dashboard from './Dashboard';
+import * as dataUtils from '../../utils/localDataUtils';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
 
-// Mock localDataUtils functions as localStorage mock doesn't work well.
-
-beforeEach(() => {
+afterEach(() => {
   jest.clearAllMocks();
+  localStorage.clear();
 });
 
 describe('Dashboard UI Tests', () => {
@@ -38,8 +38,56 @@ describe('Dashboard UI Tests', () => {
   });
 
   // test init button calls right function with expected
+  test('initialise app data button calls expected function', () => {
+    render(<Dashboard />);
 
-  // test write data button calls right function with expected
+    jest
+      .spyOn(dataUtils, 'initialiseLocalData')
+      .mockImplementation()
+      .mockName('initialiseLocalData');
 
-  // test clear data button calls right function with expected
+    const initButton = screen.getByRole('button', {
+      name: /initialise app data/i,
+    });
+
+    userEvent.click(initButton);
+
+    expect(dataUtils.initialiseLocalData).toHaveBeenCalledTimes(1);
+  });
+
+  test('reset local storage button calls expected function', () => {
+    localStorage.setItem('init', 'true');
+    render(<Dashboard />);
+
+    jest
+      .spyOn(dataUtils, 'resetLocalData')
+      .mockImplementation()
+      .mockName('resetLocalData');
+
+    const resetButton = screen.getByRole('button', {
+      name: /reset local storage/i,
+    });
+
+    userEvent.click(resetButton);
+
+    expect(dataUtils.resetLocalData).toHaveBeenCalledTimes(1);
+  });
+
+  test('write stored data to console button calls expected function', () => {
+    localStorage.setItem('init', 'true');
+    render(<Dashboard />);
+
+    jest
+      .spyOn(dataUtils, 'printLocalData')
+      .mockImplementation()
+      .mockName('printLocalData');
+
+    const printButton = screen.getByRole('button', {
+      name: /write stored data to console/i,
+    });
+
+    userEvent.click(printButton);
+
+    expect(dataUtils.printLocalData).toHaveBeenCalledTimes(1);
+  });
 });

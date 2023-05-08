@@ -44,7 +44,9 @@ export default function Dashboard() {
             variant="contained"
             color="secondary"
             sx={{ maxWidth: 300 }}
-            onClick={printLocalData}
+            onClick={() => {
+              printLocalData();
+            }}
           >
             Write Stored Data To Console
           </Button>
