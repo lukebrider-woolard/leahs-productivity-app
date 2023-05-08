@@ -4,19 +4,6 @@ import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
 import { BrowserRouter } from 'react-router-dom';
 
-beforeAll(() => {
-  const mockedNavigate = jest.fn();
-
-  jest.mock('react-router', () => ({
-    ...jest.requireActual('react-router'),
-    useNavigate: () => mockedNavigate,
-  }));
-});
-
-afterAll(() => {
-  jest.clearAllMocks();
-});
-
 describe('Heading Bar UI Tests', () => {
   test('heading bar renders as expected', () => {
     const HeadingBarTree = renderer
