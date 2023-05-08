@@ -1,6 +1,7 @@
 // React
 import { useEffect, useState } from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { useParams } from 'react-router-dom';
 
 // Material UI
 import {
@@ -26,12 +27,17 @@ import {
 import { MagnetData, SalesData } from '../../types';
 
 export default function SalesPage() {
-  const [rawMagnetList, setRawMagnetList] = useState<string>('');
+  const { id: magnetIds } = useParams();
+  const [rawMagnetList, setRawMagnetList] = useState<string>(
+    magnetIds !== undefined ? magnetIds : ''
+  );
   const [buyerCountry, setBuyerCountry] = useState<string>('');
   const [magnetIdArray, setMagnetIdArray] = useState<string[]>([]);
   const [magnetCount, setMagnetCount] = useState<number>(0);
 
   const magnetData = readLocalData<MagnetData>('magnetData');
+
+  console.log(magnetIds);
 
   // Initialise state
   useEffect(() => {
@@ -162,6 +168,35 @@ export default function SalesPage() {
     }
   }
 
+  function completeOrderButton() {
+    if (magnetIds === undefined) {
+      return (
+        <Button
+          key="Complete"
+          variant="contained"
+          color="secondary"
+          sx={{ ml: 2, mt: 1 }}
+          onClick={processMagnetPurchase}
+          disabled={!rawMagnetList || !buyerCountry}
+        >
+          Complete
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          key="OldOrder"
+          variant="contained"
+          color="secondary"
+          sx={{ ml: 2, mt: 1 }}
+          disabled
+        >
+          Old Order
+        </Button>
+      );
+    }
+  }
+
   function render() {
     return (
       <>
@@ -228,16 +263,7 @@ export default function SalesPage() {
               value={buyerCountry}
               onChange={(e) => setBuyerCountry(e.target.value)}
             />
-            <Button
-              key="Complete"
-              variant="contained"
-              color="secondary"
-              sx={{ ml: 2, mt: 1 }}
-              onClick={processMagnetPurchase}
-              disabled={!rawMagnetList || !buyerCountry}
-            >
-              Complete
-            </Button>
+            {completeOrderButton()}
           </Box>
         </Stack>
       </>

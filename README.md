@@ -46,6 +46,7 @@ This form allows you to enter a new magnet to the catalogue. You will need to pr
 ### Sales
 
 This page enables you to enter a comma separated list of magnet ids in order to generate an alphabetised list of magnets that a customer has ordered. There is also the ability to select a bundle if the customer has purchased one of those. This list also shows the current stock of each magnet. When ready, you need to enter the country that the customer is ordering from (to update this property of each magnet in the order). You can then hit the `Complete` button to process the order - automatically updating the stock, sold, and country properties of each magnet in the order. 
+Note that this page can be opened from the Previous Orders page. When opened in this way the magnet IDs from the previous order are present in the URL - allowing the sales page to display the sold magnets from that order. When viewed in this way the `Complete` button is permanently disabled to avoid accidental order duplication. 
 
 ### Stock Management
 
@@ -53,4 +54,8 @@ Here you can view a streamlined view of the current magnet stock. You can use th
 
 ### Previous Orders
 
-This page displays a simple table showing the magnets ids purchased in each order and the date the order was completed using this app. 
+This page displays a simple table showing the magnets ids purchased in each order and the date the order was completed using this app. You can click on a row to load the magnets in the Sales page - making it easier to view which magnets were sold.
+
+## Testing
+
+Testing of this app is coded in Jest. This includes unit, UI, and snapshot testing as appropriate. To run these tests, use the command `yarn test` in a terminal pointed at this repository. 

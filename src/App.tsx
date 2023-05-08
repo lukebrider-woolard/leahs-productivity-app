@@ -20,6 +20,7 @@ export default function App() {
           <Route path="/magnet-data" element={<DataPage />} />
           <Route path="/add-magnet" element={<AddMagnetForm />} />
           <Route path="/sales" element={<SalesPage />} />
+          <Route path="/sales/:id" element={<SalesPage />} />
           <Route path="/stock-management" element={<StockManagementPage />} />
           <Route path="/previous-orders" element={<PreviousOrdersPage />} />
           <Route path="/" element={<Dashboard />} />

@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard UI Tests dashboard page renders default view when data not initialised 1`] = `
+<div
+  className="MuiBox-root css-8875ym"
+>
+  <h4
+    className="MuiTypography-root MuiTypography-h4 css-1bt2q07-MuiTypography-root"
+  >
+    Dashboard
+  </h4>
+  <div
+    className="MuiContainer-root MuiContainer-maxWidthXl css-qhkpqj-MuiContainer-root"
+  >
+    <div
+      className="MuiBox-root css-s5m0mu"
+    >
+      <div
+        className="MuiStack-root css-10y7f4i-MuiStack-root"
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-rs4doj-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          Initialise App Data
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
