@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 It is designed to provide simple tools to help Leah with her various business needs. 
-Due to the single use nature of this project, it is run as a localhost react app and stores all data in the user's browser's local storage. 
+Due to the single use nature of this project, it stores all data in the user's browser's local storage. 
 
 ## First Time Setup
 
