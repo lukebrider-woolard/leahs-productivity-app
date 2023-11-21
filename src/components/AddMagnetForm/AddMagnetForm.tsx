@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Material UI
@@ -27,10 +27,12 @@ import { readLocalData, getUniqueBundles } from '../../utils/localDataUtils';
 import { MagnetData } from '../../types';
 
 export default function AddMagnetForm() {
-  const [magnetId, setMagnetId] = useState<string>('');
-  const [magnetName, setMagnetName] = useState<string>('');
-  const [noInStock, setNoInStock] = useState<string>('');
-  const [bundles, setBundles] = useState<string[]>([]);
+  const [magnet, setMagnet] = useState({
+    magnetId: '',
+    magnetName: '',
+    noInStock: '',
+    bundles: [''],
+  });
   const [availableBundles, setAvailableBundles] = useState<string[]>(
     getUniqueBundles()
   );
@@ -48,10 +50,10 @@ export default function AddMagnetForm() {
 
   function submitNewMagnet() {
     const newMagnet: MagnetData = {
-      id: magnetId,
-      name: magnetName,
-      stock: +noInStock,
-      bundles: bundles,
+      id: magnet.magnetId,
+      name: magnet.magnetName,
+      stock: +magnet.noInStock,
+      bundles: magnet.bundles,
       sold: 0,
       countries: [],
     };
@@ -64,12 +66,24 @@ export default function AddMagnetForm() {
   }
 
   // Handlers
-  function handleSelectBundles(event: SelectChangeEvent<typeof bundles>) {
+  function handleFormEntry(event: ChangeEvent) {
+    setMagnet({
+      ...magnet,
+      [(event.target as HTMLInputElement).name]: (
+        event.target as HTMLInputElement
+      ).value,
+    });
+  }
+
+  function handleSelectBundles(event: SelectChangeEvent<string[]>) {
     const {
       target: { value },
     } = event;
 
-    setBundles(typeof value === 'string' ? value.split(',') : value);
+    setMagnet({
+      ...magnet,
+      bundles: typeof value === 'string' ? value.split(',') : value,
+    });
   }
 
   function handleModalOpen() {
@@ -87,8 +101,8 @@ export default function AddMagnetForm() {
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
-        aria-labelledby="add-new-bundle"
-        aria-describedby="modal-modal-description"
+        aria-labelledby='add-new-bundle'
+        aria-describedby='modal-modal-description'
       >
         <Box
           sx={{
@@ -103,26 +117,26 @@ export default function AddMagnetForm() {
             p: 4,
           }}
         >
-          <Typography id="add-new-bundle" variant="h6" component="h2">
+          <Typography id='add-new-bundle' variant='h6' component='h2'>
             Add New Bundle
           </Typography>
           <Stack
-            direction="row"
-            alignItems="center"
+            direction='row'
+            alignItems='center'
             spacing={2}
-            justifyContent="center"
+            justifyContent='center'
             sx={{ mt: 2 }}
           >
             <TextField
-              id="new-bundle"
-              label="New Bundle Name"
-              variant="outlined"
+              id='new-bundle'
+              label='New Bundle Name'
+              variant='outlined'
               value={newBundleName}
               onChange={(e) => setNewBundleName(e.target.value)}
             />
             <Button
-              variant="contained"
-              color="secondary"
+              variant='contained'
+              color='secondary'
               onClick={submitNewBundle}
               disabled={!newBundleName}
             >
@@ -137,44 +151,44 @@ export default function AddMagnetForm() {
   function renderForm() {
     return (
       <Box
-        component="form"
-        justifyContent="space-evenly"
-        alignItems="center"
-        display="flex"
-        flexWrap="wrap"
+        component='form'
+        justifyContent='space-evenly'
+        alignItems='center'
+        display='flex'
+        flexWrap='wrap'
         sx={{ pt: 10 }}
       >
         <TextField
-          id="magnet-id"
-          label="Magnet ID"
-          variant="outlined"
-          value={magnetId}
-          onChange={(e) => setMagnetId(e.target.value)}
+          id='magnet-id'
+          name='magnetId'
+          label='Magnet ID'
+          variant='outlined'
+          onChange={handleFormEntry}
         />
         <TextField
-          id="magnet-name"
-          label="Magnet Name"
-          variant="outlined"
-          value={magnetName}
-          onChange={(e) => setMagnetName(e.target.value)}
+          id='magnet-name'
+          name='magnetName'
+          label='Magnet Name'
+          variant='outlined'
+          onChange={handleFormEntry}
         />
         <TextField
-          id="no-in-stock"
-          label="Number In Stock"
-          variant="outlined"
-          type="number"
-          value={noInStock}
-          onChange={(e) => setNoInStock(e.target.value)}
+          id='no-in-stock'
+          name='noInStock'
+          label='Number In Stock'
+          variant='outlined'
+          type='number'
+          onChange={handleFormEntry}
         />
         <FormControl sx={{ width: 300 }}>
-          <InputLabel id="select-bundles-label">Bundles</InputLabel>
+          <InputLabel id='select-bundles-label'>Bundles</InputLabel>
           <Select
-            labelId="select-bundles-label"
-            id="select-bundles"
+            labelId='select-bundles-label'
+            id='select-bundles'
             multiple
-            value={bundles}
+            value={magnet.bundles}
             onChange={handleSelectBundles}
-            input={<OutlinedInput label="Bundles" />}
+            input={<OutlinedInput label='Bundles' />}
             renderValue={(selected: any) => selected.join(', ')}
           >
             {availableBundles.map((bundle) => (
@@ -183,11 +197,11 @@ export default function AddMagnetForm() {
               </MenuItem>
             ))}
           </Select>
-          <Tooltip title="Add New Bundle">
+          <Tooltip title='Add New Bundle'>
             <Fab
-              size="small"
-              color="secondary"
-              aria-label="add"
+              size='small'
+              color='secondary'
+              aria-label='add'
               sx={{ position: 'absolute', right: 20, top: 50 }}
               onClick={() => handleModalOpen()}
             >
@@ -196,10 +210,15 @@ export default function AddMagnetForm() {
           </Tooltip>
         </FormControl>
         <Button
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
           onClick={submitNewMagnet}
-          disabled={!magnetId || !magnetName || !noInStock || isNaN(+noInStock)}
+          disabled={
+            !magnet.magnetId ||
+            !magnet.magnetName ||
+            !magnet.noInStock ||
+            isNaN(+magnet.noInStock)
+          }
         >
           Submit
         </Button>
@@ -209,9 +228,9 @@ export default function AddMagnetForm() {
 
   return (
     <>
-      <PageLayout pageTitle="Add Magnet" child={renderForm()} />
+      <PageLayout pageTitle='Add Magnet' child={renderForm()} />
       <Button
-        variant="text"
+        variant='text'
         sx={{ position: 'fixed', top: 80, right: 20 }}
         onClick={() => navigate('/magnet-data')}
       >
